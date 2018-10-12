@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>业务预警</title>
+    <meta charset="utf-8">
+    <link th:href="@{/bootstrap/css/config.css}" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.js}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="main">
+    <div class="config-form">
+        <h1>业务预警推送配置</h1>
+        <div class="head">
+            <!--<img src="../../static/imgs/ico.ico"-->
+            <!--th:attr="src=@{/imgs/ico.ico}" style="height:60px"/>-->
+        </div>
+        <form>
+            <input type="text" id="param1" class="text" th:value=${qzId} readonly="readonly" />
+            <input type="text" id="param2" value="服务号ID" onfocus="this.value = '';"
+                   onblur="if (this.value == '') {this.value = '服务号ID';}">
+            <div class="submit" style="text-align: right">
+                <input id="saveButton" type="button" onclick="saveConfig()" value="保存配置">
+            </div>
+
+        </form>
+    </div>
+
+</div>
+<script>
+    function saveConfig() {
+        var esnPubId=$('#param2').val();
+        if (esnPubId=='服务号ID') {
+            alert("请输入正确参数");
+            return;
+        }
+        $.ajax({
+            url: "[[@{/}]]" + 'alert/config',
+            type: 'POST',
+            contentType: 'application/json;charset=utf-8',
+            data: JSON.stringify({'qzId': $('#param1').val(), 'esnPubId': esnPubId}),
+            datatype: 'json',
+            success: function (result) {
+                if (result.code == 0) {
+                    alert('保存成功');
+                    $('#saveButton').attr("disabled",true);
+                }
+
+            }
+        })
+    }
+</script>
+</body>
+</html>

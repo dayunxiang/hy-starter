@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<link>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="UTF-8"/>
+    <title>预警消息详情</title>
+    <link th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-theme.css}" rel="stylesheet"/>
+    <!--<script type="text/javascript" th:src="@{/js/jquery-1.11.1.js}"></script>-->
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.js}"></script>
+</head>
+<style>
+    .bg{
+        background-color: #F7F7F7;
+    }
+
+    .detail{
+        background-color: #ffffff;
+        padding: 5px;
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-top: 10px;
+    }
+    .detail_content{
+        padding: 2px;
+        color: #6d6b6b;
+    }
+    .subject {
+        background-color: #ffffff;
+        line-height: 40px;
+        padding-left: 15px;
+    }
+    .header_div {
+        text-align: center;
+        background-color: #c9302c;
+        color: white;
+        font-size: 16px;
+        line-height: 40px;
+        display: none;
+    }
+    .attachment{
+        background-color: #ffffff;
+        padding-left: 15px;
+        margin-top: 10px;
+        line-height: 40px;
+    }
+    .title{
+        font-weight: bolder;
+        color: #0f0f0f;
+    }
+    .share-block {
+        text-align: left;
+        background: #fff;
+        margin: 10px 0px;
+        padding:0px 15px;
+        line-height: 40px;
+        font-weight: bolder;
+    }
+    .share-block img {
+        max-height: 20px;
+        max-width: 20px;
+        margin-left: 10px;
+    }
+</style>
+<body class="bg">
+<div class="header_div" th:text="消息详情"></div>
+<div>
+    <div style="display: none">
+        <span id="qzId" th:text="${qzId}"></span>
+    </div>
+    <div class="subject" >
+        <span class="title">标题：</span><span id="title" style="color: #6d6969;font-weight: bolder" th:text="${alertMessageVo.subject}"></span>
+    </div>
+
+    <div class="detail">
+        <div><span class="title">内容：</span></div>
+        <div id="content" class="detail_content" th:utext=" ${alertMessageVo.content}">
+        </div>
+    </div>
+
+    <div class="attachment">
+        <span class="title">附件列表：</span> <a id="url" th:href="@{'/view/attachment?msg=' + ${msg}}" href="" target="_blank" th:text="${alertMessageVo.fileName}"></a>
+    </div>
+    <div class="share-block">
+        <span>分享至：</span>
+        <img src="../../static/imgs/ico.ico"
+             th:attr="src=@{/imgs/ico.ico}" style="height:20px" onclick="shareEsn()"/>
+        <img src="../../static/imgs/icon64_appwx_logo.png"
+             th:attr="src=@{/imgs/icon64_appwx_logo.png}" style="height:20px" onclick="shareWx()"/>
+    </div>
+</div>
+
+<script>
+    function shareEsn() {
+        var baseUrl='http://172.20.9.11:10200/nc-prealert/view/detail';
+        var index=$('#url').attr('href').indexOf('?');
+        var msg=$('#url').attr('href').substring(index);
+        function connectWebViewJavascriptBridge(callback) {
+            if (window.WebViewJavascriptBridge) {
+                callback(WebViewJavascriptBridge);
+            } else {
+                document.addEventListener('WebViewJavascriptBridgeReady', function() {
+                    callback(WebViewJavascriptBridge);
+                }, false);
+            }
+        };
+        connectWebViewJavascriptBridge(function(YonYouJSBridge) {
+            var shareData = {
+                'function': 'shareLightAppMessage',
+                parameters: {
+                    title: $('#title').text(),
+                    content: $('#content').text(),
+                    url: baseUrl + msg,
+                    type:0,
+                    qzId:$('#qzId').text()
+                },
+            };
+            YonYouJSBridge.send(JSON.stringify(shareData), function(responseData) {
+
+            })
+        })
+    }
+    function shareWx() {
+        var baseUrl='http://172.20.9.11:10200/nc-prealert/view/detail';
+        var index=$('#url').attr('href').indexOf('?');
+        var msg=$('#url').attr('href').substring(index);
+        function connectWebViewJavascriptBridge(callback) {
+            if (window.WebViewJavascriptBridge) {
+                callback(WebViewJavascriptBridge);
+            } else {
+                document.addEventListener('WebViewJavascriptBridgeReady', function() {
+                    callback(WebViewJavascriptBridge);
+                }, false);
+            }
+        };
+        connectWebViewJavascriptBridge(function(YonYouJSBridge) {
+            var shareData = {
+                'function': 'share',
+                parameters: {
+                    title: $('#title').text(),
+                    content: $('#content').text(),
+                    share_type:'3',
+                    url: baseUrl + msg
+                },
+            };
+            YonYouJSBridge.send(JSON.stringify(shareData), function(responseData) {
+
+            })
+        })
+    }
+</script>
+</body>
+</html>
