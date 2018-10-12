@@ -1,3 +1,7 @@
 current:
   profile:
     active: test
+
+ec:
+  user:
+    url: https://openapi.yonyoucloud.com/lightapp-proxy/adapter/userinfo/

@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="index/font_614024_0t6dyuun1urf6r.css" rel="stylesheet"></link>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
     <title>
-        应用导航
+        华衍导航
     </title>
     <link rel="stylesheet" href="index/index.css">
 </head>
@@ -14,15 +15,6 @@
 <form name="form1" method="post"
       action="https://i.yonyou.com/website/index.aspx?code=9cd296a7610bf3dff7971ddf427eb5db069810799235fbc4396ba925170f&amp;groupname=%u6ee1%u5766%u5766%u7a7a%u95f4&amp;appId=142945&amp;qzId=111065&amp;YYW=1&amp;YYW=1"
       id="form1">
-    <div>
-        <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE"
-               value="/wEPDwUJMjMzNTAwNzkwZGRFXw2XIIPotU4kkT1kaC2qLK3fHsZCPXS0Nxa2JMAVvQ==">
-    </div>
-
-    <div>
-
-        <input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="AA2F74F2">
-    </div>
     <div id="fs-pc" class="fs-pc">
         <p class="tip">
             <img src="./index/lock1.png" width="8px" alt=""> 外网需vpn访问
@@ -32,18 +24,22 @@
         </ul>
     </div>
     <script>
+        var userid = "[[${userid}]]";
+
+        console.log("test：",userid);
+
         // 列表数据
         var lists = [{
-            title: '我的工作台',
+            title: 'HR自助',
             subLists: [
                 {
-                    name: '热线电话',
+                    name: '我的档案',
                     img: '热线电话',
-                    url: 'http://ufpark/newfile/rexian.html',
+                    url: 'http://192.168.0.61:8001/portal/app/AppPsninfo?nodecode=E20200101&AuthKey=ec' + '&userid=' + userid,
                     hasLock: true
                 },
                 {
-                    name: '我的消费',
+                    name: '转正申请',
                     img: '我的消费',
                     url: 'http://ufpark/idcard/consume.aspx?keyid=3',
                     hasLock: true
